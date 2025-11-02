@@ -2,12 +2,12 @@ import cors from 'cors';
 
 const allowedOrigins = (
   process.env.NODE_ENV === 'production'
-    ? [process.env.FRONTEND_URL]
+    ? ['https://expense-tracker-app-pearl-five.vercel.app/']
     : ['http://localhost:5173']
 ).filter(Boolean) as string[];
-// allowedOrigins
+
 const corsOptions = {
-  origin: ['*'],
+  origin: allowedOrigins,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
