@@ -1,7 +1,8 @@
 import cors from 'cors';
 
 const allowedOrigins = [
-  'https://expense-tracker-app-pearl-five.vercel.app/',
+  process.env.FRONTEND_URL?.replace(/\/$/, ''),
+  'http://localhost:5173',
 ].filter(Boolean) as string[];
 
 const corsOptions = {
