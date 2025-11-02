@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 5002;
 connectDB();
 
 // Middleware
-app.use(corsMiddleware);
+app.use('*', corsMiddleware);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(visitTracker);
