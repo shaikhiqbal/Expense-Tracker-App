@@ -20,7 +20,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(visitTracker);
 
-
+// Health check route
+app.get('/', (req, res) => {
+  res.json({ message: 'Expense Tracker API is running!' });
+});
 
 // Routes
 app.use('/api', transactionRoutes);
@@ -28,11 +31,9 @@ app.use('/api', visitorRoutes);
 
 // Global error handler
 app.use((err: any, req: any, res: any, next: any) => {
-  res.status(500).json({ error: 'Internal server error' });
+  res.status(500).json({ error: 'Internal server error', err });
 });
 
-app.listen(PORT, () => {
-  if (process.env.NODE_ENV !== 'production') {
-    console.log(`Server running on port ${PORT}`);
-  }
+app.listen(Number(PORT), '0.0.0.0', () => {
+  console.log(`Server running on port ${PORT}`);
 });
