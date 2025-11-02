@@ -90,3 +90,6 @@ temp/
 *.njsproj
 *.sln
 *.sw?
+
+# VS Code history extension
+.history/
