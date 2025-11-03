@@ -97,7 +97,9 @@ export const TransactionsTable = () => {
     <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-800 overflow-hidden transition-all duration-300">
       {/* Header */}
       <div className=" bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 px-8 py-6 border-b border-gray-200 dark:border-gray-700">
-        <div className="flex justify-between">
+        <div className="flex flex-col sm:flex-row md:justify-between">
+  
+
           <div className="mb-2">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
               Transactions
@@ -128,9 +130,9 @@ export const TransactionsTable = () => {
             </Button>
           </div>
         </div>
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+        <div className="mt-6">
           {/* Filters */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-3">
             <Select
               value={filters.type || 'all'}
               onValueChange={(value) =>
@@ -190,7 +192,7 @@ export const TransactionsTable = () => {
               className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-600 rounded-xl"
             />
 
-            <div className="flex gap-2">
+            <div className="flex gap-2 sm:col-span-2 lg:col-span-1">
               <Button
                 onClick={handleSearch}
                 disabled={loading}
@@ -201,7 +203,7 @@ export const TransactionsTable = () => {
               <Button
                 variant="outline"
                 onClick={handleClearFilters}
-                className="border-gray-300 dark:border-gray-600 rounded-xl transition-all duration-200"
+                className="border-gray-300 dark:border-gray-600 rounded-xl transition-all duration-200 flex-1 sm:flex-none"
               >
                 Clear
               </Button>
@@ -248,67 +250,131 @@ export const TransactionsTable = () => {
             </p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50 dark:bg-gray-800 sticky top-0 z-10">
-                <tr>
-                  <th className="text-left py-4 px-6 font-semibold text-gray-900 dark:text-white text-sm uppercase tracking-wider border-b border-gray-200 dark:border-gray-700">
-                    Date
-                  </th>
-                  <th className="text-left py-4 px-6 font-semibold text-gray-900 dark:text-white text-sm uppercase tracking-wider border-b border-gray-200 dark:border-gray-700">
-                    Type
-                  </th>
-                  <th className="text-left py-4 px-6 font-semibold text-gray-900 dark:text-white text-sm uppercase tracking-wider border-b border-gray-200 dark:border-gray-700">
-                    Category
-                  </th>
-                  <th className="text-left py-4 px-6 font-semibold text-gray-900 dark:text-white text-sm uppercase tracking-wider border-b border-gray-200 dark:border-gray-700">
-                    Description
-                  </th>
-                  <th className="text-right py-4 px-6 font-semibold text-gray-900 dark:text-white text-sm uppercase tracking-wider border-b border-gray-200 dark:border-gray-700">
-                    Amount
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
-                {transactions.map((transaction, index) => (
-                  <tr
-                    key={transaction.id}
-                    className={`transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-800 group ${
-                      index % 2 === 0
-                        ? 'bg-white dark:bg-gray-900'
-                        : 'bg-gray-50/50 dark:bg-gray-800/50'
-                    }`}
-                  >
-                    <td className="py-4 px-6">
-                      <div className="flex flex-col">
+          <>
+            {/* Desktop Table */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full min-w-full">
+                <thead className="bg-gray-50 dark:bg-gray-800 sticky top-0 z-10">
+                  <tr>
+                    <th className="text-left py-4 px-6 font-semibold text-gray-900 dark:text-white text-sm uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 min-w-[120px]">
+                      Date
+                    </th>
+                    <th className="text-left py-4 px-6 font-semibold text-gray-900 dark:text-white text-sm uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 min-w-[100px]">
+                      Type
+                    </th>
+                    <th className="text-left py-4 px-6 font-semibold text-gray-900 dark:text-white text-sm uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 min-w-[120px]">
+                      Category
+                    </th>
+                    <th className="text-left py-4 px-6 font-semibold text-gray-900 dark:text-white text-sm uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 min-w-[200px]">
+                      Description
+                    </th>
+                    <th className="text-right py-4 px-6 font-semibold text-gray-900 dark:text-white text-sm uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 min-w-[120px]">
+                      Amount
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+                  {transactions.map((transaction, index) => (
+                    <tr
+                      key={transaction.id}
+                      className={`transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-800 group ${
+                        index % 2 === 0
+                          ? 'bg-white dark:bg-gray-900'
+                          : 'bg-gray-50/50 dark:bg-gray-800/50'
+                      }`}
+                    >
+                      <td className="py-4 px-6">
+                        <div className="flex flex-col">
+                          <span className="text-sm font-medium text-gray-900 dark:text-white">
+                            {new Date(transaction.date).toLocaleDateString(
+                              'en-US',
+                              {
+                                month: 'short',
+                                day: 'numeric',
+                                year: 'numeric',
+                              }
+                            )}
+                          </span>
+                          <span className="text-xs text-gray-500 dark:text-gray-400">
+                            {new Date(transaction.date).toLocaleDateString(
+                              'en-US',
+                              { weekday: 'short' }
+                            )}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="py-4 px-6">
+                        <div
+                          className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
+                            transaction.type === 'income'
+                              ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400'
+                              : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
+                          }`}
+                        >
+                          <span
+                            className={`mr-1.5 ${
+                              transaction.type === 'income'
+                                ? 'text-emerald-600 dark:text-emerald-400'
+                                : 'text-red-600 dark:text-red-400'
+                            }`}
+                          >
+                            {getTypeIcon(transaction.type)}
+                          </span>
+                          {transaction.type === 'income' ? 'Income' : 'Expense'}
+                        </div>
+                      </td>
+                      <td className="py-4 px-6">
                         <span className="text-sm font-medium text-gray-900 dark:text-white">
-                          {new Date(transaction.date).toLocaleDateString(
-                            'en-US',
-                            {
-                              month: 'short',
-                              day: 'numeric',
-                              year: 'numeric',
-                            }
-                          )}
+                          {transaction.category}
                         </span>
-                        <span className="text-xs text-gray-500 dark:text-gray-400">
-                          {new Date(transaction.date).toLocaleDateString(
-                            'en-US',
-                            { weekday: 'short' }
-                          )}
+                      </td>
+                      <td className="py-4 px-6">
+                        <span className="text-sm text-gray-600 dark:text-gray-400 max-w-xs truncate block">
+                          {transaction.description || 'No description'}
                         </span>
-                      </div>
-                    </td>
-                    <td className="py-4 px-6">
+                      </td>
+                      <td className="py-4 px-6 text-right">
+                        <div className="flex flex-col items-end">
+                          <span
+                            className={`text-lg font-bold transition-all duration-200 ${
+                              transaction.type === 'income'
+                                ? 'text-emerald-600 dark:text-emerald-400'
+                                : 'text-red-600 dark:text-red-400'
+                            }`}
+                          >
+                            {transaction.type === 'income' ? '+' : '-'}
+                            {formatCurrency(transaction.amount)}
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Card Layout */}
+            <div className="md:hidden divide-y divide-gray-100 dark:divide-gray-800">
+              {transactions.map((transaction, index) => (
+                <div
+                  key={transaction.id}
+                  className={`p-4 transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-800 ${
+                    index % 2 === 0
+                      ? 'bg-white dark:bg-gray-900'
+                      : 'bg-gray-50/50 dark:bg-gray-800/50'
+                  }`}
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center space-x-3">
                       <div
-                        className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
+                        className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
                           transaction.type === 'income'
                             ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400'
                             : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
                         }`}
                       >
                         <span
-                          className={`mr-1.5 ${
+                          className={`mr-1 ${
                             transaction.type === 'income'
                               ? 'text-emerald-600 dark:text-emerald-400'
                               : 'text-red-600 dark:text-red-400'
@@ -318,45 +384,60 @@ export const TransactionsTable = () => {
                         </span>
                         {transaction.type === 'income' ? 'Income' : 'Expense'}
                       </div>
-                    </td>
-                    <td className="py-4 px-6">
                       <span className="text-sm font-medium text-gray-900 dark:text-white">
                         {transaction.category}
                       </span>
-                    </td>
-                    <td className="py-4 px-6">
-                      <span className="text-sm text-gray-600 dark:text-gray-400 max-w-xs truncate block">
-                        {transaction.description || 'No description'}
+                    </div>
+                    <span
+                      className={`text-lg font-bold ${
+                        transaction.type === 'income'
+                          ? 'text-emerald-600 dark:text-emerald-400'
+                          : 'text-red-600 dark:text-red-400'
+                      }`}
+                    >
+                      {transaction.type === 'income' ? '+' : '-'}
+                      {formatCurrency(transaction.amount)}
+                    </span>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                        Date
                       </span>
-                    </td>
-                    <td className="py-4 px-6 text-right">
-                      <div className="flex flex-col items-end">
-                        <span
-                          className={`text-lg font-bold transition-all duration-200 ${
-                            transaction.type === 'income'
-                              ? 'text-emerald-600 dark:text-emerald-400'
-                              : 'text-red-600 dark:text-red-400'
-                          }`}
-                        >
-                          {transaction.type === 'income' ? '+' : '-'}
-                          {formatCurrency(transaction.amount)}
+                      <span className="text-sm text-gray-900 dark:text-white">
+                        {new Date(transaction.date).toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
+                        })}
+                      </span>
+                    </div>
+                    
+                    {transaction.description && (
+                      <div className="flex justify-between items-start">
+                        <span className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                          Description
+                        </span>
+                        <span className="text-sm text-gray-600 dark:text-gray-400 text-right max-w-[200px] break-words">
+                          {transaction.description}
                         </span>
                       </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
 
       {/* Pagination */}
       {!isSearching && transactions.length > 0 && (
-        <div className="bg-gray-50 dark:bg-gray-800 px-8 py-6 border-t border-gray-200 dark:border-gray-700">
+        <div className="bg-gray-50 dark:bg-gray-800 px-4 sm:px-6 lg:px-8 py-6 border-t border-gray-200 dark:border-gray-700">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-gray-600 dark:text-gray-400 font-medium">
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              <span className="text-sm text-gray-600 dark:text-gray-400 font-medium text-center sm:text-left">
                 Showing {pagination.offset + 1} to{' '}
                 {Math.min(pagination.offset + pagination.limit, total)} of{' '}
                 {total} entries
@@ -382,7 +463,7 @@ export const TransactionsTable = () => {
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 sm:gap-2">
               <Button
                 variant="outline"
                 size="sm"
@@ -390,10 +471,10 @@ export const TransactionsTable = () => {
                   handlePageChange(pagination.offset - pagination.limit)
                 }
                 disabled={pagination.offset === 0}
-                className="border-gray-300 dark:border-gray-600 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="border-gray-300 dark:border-gray-600 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-700 px-2 sm:px-3"
               >
                 <svg
-                  className="w-4 h-4 mr-1"
+                  className="w-4 h-4 sm:mr-1"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -405,12 +486,12 @@ export const TransactionsTable = () => {
                     d="M15 19l-7-7 7-7"
                   />
                 </svg>
-                Previous
+                <span className="hidden sm:inline">Previous</span>
               </Button>
 
               <div className="flex items-center gap-1">
-                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                  const pageNum = Math.max(1, currentPage - 2) + i;
+                {Array.from({ length: Math.min(3, totalPages) }, (_, i) => {
+                  const pageNum = Math.max(1, currentPage - 1) + i;
                   if (pageNum > totalPages) return null;
                   return (
                     <Button
@@ -420,7 +501,7 @@ export const TransactionsTable = () => {
                       onClick={() =>
                         handlePageChange((pageNum - 1) * pagination.limit)
                       }
-                      className={`w-10 h-10 rounded-lg transition-all duration-200 ${
+                      className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg transition-all duration-200 text-xs sm:text-sm ${
                         pageNum === currentPage
                           ? 'bg-blue-600 text-white shadow-lg'
                           : 'border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700'
@@ -439,11 +520,11 @@ export const TransactionsTable = () => {
                   handlePageChange(pagination.offset + pagination.limit)
                 }
                 disabled={pagination.offset + pagination.limit >= total}
-                className="border-gray-300 dark:border-gray-600 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="border-gray-300 dark:border-gray-600 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-700 px-2 sm:px-3"
               >
-                Next
+                <span className="hidden sm:inline">Next</span>
                 <svg
-                  className="w-4 h-4 ml-1"
+                  className="w-4 h-4 sm:ml-1"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
